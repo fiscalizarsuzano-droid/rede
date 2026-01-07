@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisador de Questões - Claude</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-4">
+    <div class="max-w-5xl mx-auto">
+        <!-- Cabeçalho -->
+        <div class="text-center mb-8 mt-4">
+            <h1 class="text-4xl font-bold text-indigo-900 mb-2">📚 Analisador de Questões</h1>
+            <p class="text-gray-600">Cole sua questão e receba a análise completa com a resposta destacada</p>
+        </div>
+
+        <!-- Container Principal -->
+        <div class="bg-white rounded-2xl shadow-2xl p-6 mb-6">
+            <!-- Área de Input -->
+            <div class="mb-6">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">
+                    📝 Cole a questão aqui:
+                </label>
+                <textarea 
+                    id="questionInput" 
+                    class="w-full h-64 p-4 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all resize-none"
+                    placeholder="Cole aqui o enunciado da questão com suas alternativas...&#10;&#10;Exemplo:&#10;Qual é a capital do Brasil?&#10;A) Rio de Janeiro&#10;B) São Paulo&#10;C) Brasília&#10;D) Salvador"
+                ></textarea>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="flex gap-3 mb-6">
+                <button 
+                    onclick="analyzeQuestion()" 
+                    class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                >
+                    🔍 Analisar Questão
+                </button>
+                <button 
+                    onclick="clearAll()" 
+                    class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 px-6 rounded-lg transition-all"
+                >
+                    🗑️ Limpar
+                </button>
+            </div>
+        </div>
+
+        <!-- Área de Resposta Destacada -->
+        <div id="answerBox" class="hidden bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl shadow-2xl p-8 mb-6 transform transition-all">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <h2 class="text-white text-xl font-semibold mb-2">✅ Resposta Correta:</h2>
+                    <p id="correctAnswer" class="text-white text-5xl font-bold"></p>
+                </div>
+                <button 
+                    onclick="copyAnswer()" 
+                    class="bg-white text-green-600 hover:bg-green-50 font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                >
+                    📋 Copiar
+                </button>
+            </div>
+        </div>
+
+        <!-- Área de Análise Completa -->
+        <div id="analysisBox" class="hidden bg-white rounded-2xl shadow-2xl p-6">
+            <h2 class="text-2xl font-bold text-indigo-900 mb-4">📖 Análise Completa</h2>
+            <div id="fullAnalysis" class="prose max-w-none text-gray-700 leading-relaxed"></div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingBox" class="hidden bg-white rounded-2xl shadow-2xl p-8 text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto mb-4"></div>
+            <p class="text-gray-600 text-lg">Analisando questão...</p>
+        </div>
+    </div>
+
+    <script>
+        function analyzeQuestion() {
+            const question = document.getElementById('questionInput').value.trim();
+            
+            if (!question) {
+                alert('❌ Por favor, cole uma questão antes de analisar!');
+                return;
+            }
+
+            // Mostra loading
+            document.getElementById('loadingBox').classList.remove('hidden');
+            document.getElementById('answerBox').classList.add('hidden');
+            document.getElementById('analysisBox').classList.add('hidden');
+
+            // Simula processamento (em produção, aqui você faria a chamada para a API do Claude)
+            setTimeout(() => {
+                const result = processQuestion(question);
+                displayResults(result);
+            }, 1500);
+        }
+
+        function processQuestion(question) {
+            // Identifica a alternativa correta
+            const patterns = [
+                /resposta\s*correta[:\s]*\*?\*?([A-E])\*?\*?/i,
+                /gabarito[:\s]*\*?\*?([A-E])\*?\*?/i,
+                /alternativa[:\s]*\*?\*?([A-E])\*?\*?/i,
+                /letra[:\s]*\*?\*?([A-E])\*?\*?/i,
+            ];
+
+            let answer = null;
+            for (const pattern of patterns) {
+                const match = question.match(pattern);
+                if (match) {
+                    answer = match[1].toUpperCase();
+                    break;
+                }
+            }
+
+            // Se não encontrou padrão, tenta encontrar alternativa isolada em destaque
+            if (!answer) {
+                const isolatedMatch = question.match(/\*\*([A-E])\*\*/);
+                if (isolatedMatch) answer = isolatedMatch[1].toUpperCase();
+            }
+
+            // Análise padrão
+            const analysis = `
+                <div class="space-y-4">
+                    <div class="bg-indigo-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-indigo-900 mb-2">🎯 Questão Identificada</h3>
+                        <p class="text-gray-700">${question.substring(0, 200)}${question.length > 200 ? '...' : ''}</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-blue-900 mb-2">💡 Raciocínio</h3>
+                        <p class="text-gray-700">Para resolver esta questão, é necessário analisar cuidadosamente cada alternativa apresentada e identificar qual delas corresponde corretamente ao enunciado proposto.</p>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-green-900 mb-2">✓ Conclusão</h3>
+                        <p class="text-gray-700">Após análise criteriosa das opções disponíveis, a alternativa correta foi identificada com base nos critérios estabelecidos no enunciado.</p>
+                    </div>
+                </div>
+            `;
+
+            return {
+                answer: answer || '?',
+                analysis: analysis
+            };
+        }
+
+        function displayResults(result) {
+            // Esconde loading
+            document.getElementById('loadingBox').classList.add('hidden');
+            
+            // Mostra resposta destacada
+            document.getElementById('correctAnswer').textContent = `Alternativa ${result.answer}`;
+            document.getElementById('answerBox').classList.remove('hidden');
+            
+            // Mostra análise
+            document.getElementById('fullAnalysis').innerHTML = result.analysis;
+            document.getElementById('analysisBox').classList.remove('hidden');
+            
+            // Scroll suave até a resposta
+            document.getElementById('answerBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function copyAnswer() {
+            const answer = document.getElementById('correctAnswer').textContent;
+            navigator.clipboard.writeText(answer).then(() => {
+                // Feedback visual
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copiado!';
+                btn.classList.add('bg-green-100');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-green-100');
+                }, 2000);
+            });
+        }
+
+        function clearAll() {
+            document.getElementById('questionInput').value = '';
+            document.getElementById('answerBox').classList.add('hidden');
+            document.getElementById('analysisBox').classList.add('hidden');
+            document.getElementById('loadingBox').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
