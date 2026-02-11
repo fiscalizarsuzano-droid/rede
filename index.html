@@ -81,6 +81,72 @@
         font-size: 12px;
         color: #94a3b8;
     }
+    /* Botão flutuante */
+    .fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+        background: #2563eb;
+        color: white;
+        font-size: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        z-index: 1000;
+    }
+    
+    /* Menu flutuante */
+    .floating-menu {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 240px;
+        background: #020617;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 999;
+    }
+    
+    .floating-menu h3 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    .floating-menu button {
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        background: #1e293b;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    .floating-menu button:hover {
+        background: #334155;
+    }
+    
+    .floating-menu button:disabled {
+        background: #020617;
+        color: #64748b;
+        cursor: not-allowed;
+    }
+    
+    .menu-tip {
+        font-size: 12px;
+        color: #94a3b8;
+        text-align: center;
+    }
 </style>
 </head>
 
@@ -131,6 +197,23 @@
 
 </div>
 
+<!-- Botão flutuante -->
+<div class="fab" onclick="toggleMenu()">☰</div>
+
+<!-- Menu flutuante -->
+<div class="floating-menu" id="floatingMenu">
+    <h3>📂 Recursos</h3>
+
+    <button onclick="abrirPagina('ip-tools.html')">Ferramentas de IP</button>
+    <button onclick="abrirPagina('subnet.html')">Subnet / CIDR</button>
+    <button onclick="abrirPagina('tutoriais.html')">Mini Tutoriais</button>
+    <button disabled>Em breve...</button>
+
+    <div class="menu-tip">
+        Dica: cada recurso pode ser um HTML separado.
+    </div>
+</div>
+
 <script>
 function decimalParaBinario() {
     const ip = document.getElementById("ipDecimal").value;
@@ -176,6 +259,15 @@ function binarioParaDecimal() {
 
     document.getElementById("resultadoDecimal").innerText = decimal.join(".");
 }
+function toggleMenu() {
+    const menu = document.getElementById("floatingMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function abrirPagina(pagina) {
+    window.open(pagina, "_blank");
+}
+
 </script>
 
 </body>
