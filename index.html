@@ -1,1042 +1,182 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-        <link rel="icon" type="image/svg+xml" href="4.svg">
-</head>
-
-
 <meta charset="UTF-8">
-<title>Checklist – Cadastro Imobiliário</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferramentas de Rede - Admin</title>
 
 <style>
-    :root{
-        --nav:#0a3a50;
-        --nav-accent:#5bd4ff;
-        --card-border:#0077a8;
-        --bg:#e8f3f8;
-        --text:#003b5c;
-    }
-    *{box-sizing:border-box}
     body {
-        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e5e7eb;
         margin: 0;
-        display: flex;
-        height: 100vh;
-        background: var(--bg);
-        color: #123;
+        padding: 20px;
     }
 
-    /* MENU LATERAL */
-    .menu {
-        width: 300px;
-        background: linear-gradient(180deg,var(--nav), #134e63);
-        padding: 18px 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        border-right: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .menu-title {
-        color: #fff;
-        font-size: 16px;
-        font-weight: 700;
-        padding: 10px 8px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        margin-bottom: 6px;
+    h1 {
         text-align: center;
-        letter-spacing: 0.4px;
+        margin-bottom: 30px;
     }
 
-    .aba {
-        padding: 12px 14px;
-        color: #fff;
-        cursor: pointer;
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: #020617;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .card h2 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+
+    .card p {
         font-size: 14px;
-        transition: background .15s, transform .08s;
-        border-left: 4px solid transparent;
-        border-radius: 6px;
-        display:flex;
-        align-items:center;
-        gap:8px;
+        color: #cbd5f5;
     }
 
-    .aba:hover { background: rgba(255,255,255,0.04); transform: translateX(2px); }
-
-    .aba.active { background: rgba(255,255,255,0.06); border-left: 4px solid var(--nav-accent); }
-
-    .aba .tag { font-size:11px; background: rgba(0,0,0,0.12); padding:4px 8px; border-radius:999px; }
-
-    /* CONTEÚDO */
-    .area {
-        flex: 1;
-        padding: 26px;
-        overflow-y: auto;
-    }
-
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
-    h1 { color: var(--text); margin:0; font-size:25px }
-    .sub { color: #23506e; font-size:13px }
-
-    .reset-btn {
-        padding: 10px 14px;
-        background: #44c9ba;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 15px;
-        cursor: pointer;
-        font-weight: bold; /* deixa a fonte em negrito */
-    }
-
-    /* CARTÕES */
-    .card { background: #fff; padding: 14px; border-radius: 10px; margin-bottom: 16px; box-shadow: 0 1px 0 rgba(0,0,0,0.03); border-left:6px solid var(--card-border) }
-    .card.opc { border-left-color: #8a8a8a }
-
-    .item { display:flex; align-items:center; gap:10px; padding:8px 6px }
-    .label { flex:1; user-select:none }
-
-    /* controles à esquerda/direita */
-    .ctrl-left, .ctrl-right { width:22px; height:22px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-weight:700 }
-    .ctrl-left { background:#ddf3fb; border:2px solid #1c86a5; color:#0a3a50 }
-    .ctrl-right { background:#fbecec; border:2px solid #cc0000; color:#6b0000 }
-
-    .marcado { background: #fff59a; }
-    .riscado { text-decoration: line-through; color:#777 }
-
-    /* notas */
-    .nota{font-size:13px;color:#556;margin-top:8px}
-
-    /* responsivo */
-    @media (max-width:900px){
-        .menu{display:none}
-        body{flex-direction:column}
-        .area{padding:16px}
-    }
-
-</style>
-       
-<style>
-        /*botão certidão*/
-        /* Área separada do botão */
-        .certidao-area {
-            margin-top: 30px;
-            padding: 20px;
-        }
-        
-        /* BOTÃO CERTIDÃO */
-        .btn-certidao {
-            display: block;
-            width: 100%;
-            max-width: 400px;
-        
-            margin: 0 auto;
-        
-            padding: 16px 0;
-        
-            background-color: #2c7be5;
-            color: #fff;
-        
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-        
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .btn-certidao:hover {
-            background-color: #1a5fd0;
-        }
-</style>
-
-<style>
-/* RESPONSIVIDADE PARA CELULAR */
-@media (max-width: 600px) {
-
-    /* Botões – alinhar em uma barra superior fixa */
-    #lembreteBtn,
-    #ramalBtn,
-    #infoExtrasBtn,
-    #novoBtn {
-        bottom: 10px;
+    input {
+        width: 100%;
         padding: 10px;
-        font-size: 14px;
-        position: fixed;
-    }
-    #aba-qrcode {
-        right: 10px;   /* não fique fora da tela em mobile */
-        bottom: 60px;  /* ajuste conforme barra de botões móveis */
-        z-index: 10001;
+        margin-top: 10px;
+        border-radius: 6px;
+        border: none;
+        font-size: 16px;
     }
 
-    /* empurra o Ramal um pouco para a esquerda se necessário */
-    #ramalBtn {
-        right: 95px; /* opcional: só usar se quiser liberar espaço */
-    }
-    /* Posições adaptadas (ficam um pouco mais próximos) */
-    #lembreteBtn { right: 10px; }
-    #ramalBtn { right: 95px; }
-    #infoExtrasBtn { right: 180px; }
-    #novoBtn { right: 265px; }
-
-    /* PAINEIS – ocupar quase a tela inteira */
-    #lembreteBox,
-    #ramalBox,
-    #infoExtrasBox,
-    #novoBox {
-        width: 95vw;
-        height: 70vh;
-        right: 2.5vw;
-        bottom: 60px;
-        font-size: 15px;
+    button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        background: #2563eb;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
     }
 
-    /* Botões internos do acordeão */
-    .ex-btn {
-        font-size: 15px;
-        padding: 12px;
+    button:hover {
+        background: #1d4ed8;
     }
 
-    .ex-content {
-        font-size: 14px;
+    .result {
+        margin-top: 10px;
+        background: #020617;
+        padding: 10px;
+        border-radius: 6px;
+        font-family: monospace;
+        word-break: break-all;
     }
-}
 
+    .tip {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #94a3b8;
+    }
 </style>
-
-<style>
-        /* Botão que abre o painel */
-        #lembreteBtn {
-            position: fixed;
-            right: 10px;
-            bottom: 10px;
-            padding: 10px 14px;
-            background: #4b7bd9;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 9999;
-        }
-        
-        /* Painel de lembretes */
-        #aba-qrcode {
-            position: fixed;
-            right: 130px;
-            bottom: 60px;
-            padding: 12px 22px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-            background: #0d0f1a;
-            border: 2px solid #00eaff;
-            border-radius: 10px;
-            cursor: pointer;
-            z-index: 1001;
-            text-shadow: 0 0 8px #00eaff;
-            box-shadow:
-                0 0 5px #00eaff,
-                0 0 10px #00eaff,
-                inset 0 0 10px #00eaff;
-        
-            /* Animações */
-            animation:
-                neonPulse 2.2s infinite alternate,
-                glitchBorder 3.5s infinite;
-        }
-        
-        /* Efeito de brilho pulsante */
-        @keyframes neonPulse {
-            0% {
-                box-shadow:
-                    0 0 4px #00eaff,
-                    0 0 8px #00eaff,
-                    inset 0 0 6px #00eaff;
-            }
-            50% {
-                box-shadow:
-                    0 0 8px #00eaff,
-                    0 0 16px #00eaff,
-                    inset 0 0 12px #00eaff;
-            }
-            100% {
-                box-shadow:
-                    0 0 3px #00eaff,
-                    0 0 6px #00eaff,
-                    inset 0 0 4px #00eaff;
-            }
-        }
-        
-        /* Efeito “falha/glitch” alternando cores e bordas */
-        @keyframes glitchBorder {
-            0%   { border-color: #00eaff; }
-            25%  { border-color: #ff00ff; }
-            35%  { border-color: #00eaff; }
-            55%  { border-color: #ff0090; }
-            70%  { border-color: #00eaff; }
-            85%  { border-color: #ff00ff; }
-            100% { border-color: #00eaff; }
-        }
-        
-        /* Hover ainda mais forte */
-        #aba-qrcode:hover {
-            box-shadow:
-                0 0 10px #00eaff,
-                0 0 20px #00eaff,
-                inset 0 0 15px #00eaff,
-                0 0 20px #ff00ff;
-            transform: scale(1.03);
-            transition: 0.2s;
-        }
-
-        
-        /* Área de texto */
-        #lembreteText {
-            width: 100%;
-            height: 100%;
-            border: none;
-            outline: none;
-            resize: none;
-            font-size: 14px;
-        }
-
-</style>
-
-<style>
-        /* =============================== */
-        /* MENU FLUTUANTE SMARTWATCH */
-        /* =============================== */
-        
-        .fab-container {
-            position: fixed;
-            right: 18px;
-            bottom: 18px;
-            z-index: 10000;
-        }
-        
-        /* Botão principal */
-        .fab-main {
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-        
-            background: linear-gradient(135deg, #2c7be5, #00c6ff);
-            color: #fff;
-            font-size: 26px;
-            font-weight: bold;
-        
-            box-shadow: 0 6px 16px rgba(0,0,0,.25);
-        }
-        
-        /* Container dos botões */
-        .fab-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-        
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(10px);
-        
-            transition: all 0.25s ease;
-        }
-        
-        /* Quando aberto */
-        .fab-container.open .fab-actions {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-        
-        /* Botões internos */
-        .fab-btn {
-            min-width: 180px;
-            padding: 12px 16px;
-        
-            border-radius: 999px;
-            border: none;
-            cursor: pointer;
-        
-            background: #ffffff;
-            color: #003b5c;
-            font-weight: bold;
-            font-size: 14px;
-            text-align: left;
-        
-            box-shadow: 0 4px 12px rgba(0,0,0,.18);
-        }
-        
-        /* Hover */
-        .fab-btn:hover {
-            background: #e8f3f8;
-        }
-</style>
-
-        
-<script>
-    // Abas e controle
-    function abrirAba(nome){
-        document.querySelectorAll('.aba').forEach(a=>a.classList.remove('active'));
-        document.querySelector('#aba-'+nome).classList.add('active');
-        document.querySelectorAll('.conteudo').forEach(c=>c.style.display='none');
-        document.querySelector('#conteudo-'+nome).style.display='block';
-        // scroll top
-        document.querySelector('.area').scrollTop = 0;
-    }
-
-    function marcarTexto(id){
-        const el = document.getElementById(id);
-        if(el.classList.contains('marcado')) el.classList.remove('marcado'); else el.classList.add('marcado');
-    }
-    function riscarTexto(id){
-        const el = document.getElementById(id);
-        if(el.classList.contains('riscado')) el.classList.remove('riscado'); else el.classList.add('riscado');
-    }
-    function resetarChecklist(){
-        document.querySelectorAll('.marcado').forEach(e=>e.classList.remove('marcado'));
-        document.querySelectorAll('.riscado').forEach(e=>e.classList.remove('riscado'));
-    }
-
-    // ao carregar, mostrar primeira aba
-    document.addEventListener('DOMContentLoaded', ()=>{ abrirAba('compromissario'); });
-</script>
 </head>
+
 <body>
 
-<div class="menu" role="navigation" aria-label="Procedimentos">
-    <div class="menu-title">PROCEDIMENTOS</div>
-    <div id="aba-compromissario" class="aba" onclick="abrirAba('compromissario')"><span>Alteração de Compromissário</span><span class="tag">#AC</span></div>
-    <div id="aba-proprietario" class="aba" onclick="abrirAba('proprietario')"><span>Alteração de Proprietário</span><span class="tag">#AP</span></div>
-    <div id="aba-revisao" class="aba" onclick="abrirAba('revisao')"><span>Revisão de Área</span><span class="tag">#RA</span></div>
-    <div id="aba-subunidades" class="aba" onclick="abrirAba('subunidades')"><span>Lançamento/Exclusão Subunidades</span><span class="tag">#LS</span></div>
-    <div id="aba-desdobro" class="aba" onclick="abrirAba('desdobro')"><span>Desdobro / Fusão</span><span class="tag">#DF</span></div>
-    <div id="aba-certidoes" class="aba" onclick="abrirAba('certidoes')"><span>Certidões</span><span class="tag">#CE</span></div>
-    <div id="aba-condominio" class="aba" onclick="abrirAba('condominio')"><span>Individualização Condomínio</span><span class="tag">#IC</span></div>
-    <div id="aba-cadastramento" class="aba" onclick="abrirAba('cadastramento')"><span>Cadastramento de Área</span><span class="tag">#CA</span></div>
-    <div id="aba-possuidor" class="aba" onclick="abrirAba('possuidor')"><span>Cadastro de Possuidor</span><span class="tag">#CP</span></div>
+<h1>🖧 Ferramentas de Rede</h1>
 
-</div>
+<div class="container">
 
-<div class="area">
-    <header>
-        <div>
-            <h1>Checklist — Cadastro Imobiliário</h1>
-            <div class="sub">Clique no quadrado à esquerda para marcar como entregue. Clique à direita para riscar e indicar falta.</div>
+    <!-- IP Decimal para Binário -->
+    <div class="card">
+        <h2>IP Decimal → Binário</h2>
+        <p>Converte um endereço IPv4 comum para binário.</p>
+
+        <input type="text" id="ipDecimal" placeholder="Ex: 192.168.1.10">
+        <button onclick="decimalParaBinario()">Converter</button>
+
+        <div class="result" id="resultadoBinario"></div>
+
+        <div class="tip">
+            Dica: cada octeto vira 8 bits (0–255).
         </div>
-        <div>
-            <button class="reset-btn" onclick="resetarChecklist()">Reiniciar Checklist</button>
-        </div>
-    </header>
-
-    <!-- COMPROMISSÁRIO -->
-    <section id="conteudo-compromissario" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Alteração de Compromissário</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('c1')">✓</div><div id="c1" class="label">Espelho de IPTU</div><div class="ctrl-right" onclick="riscarTexto('c1')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('c2')">✓</div><div id="c2" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('c2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('c3')">✓</div><div id="c3" class="label">Comprovante de Endereço</div><div class="ctrl-right" onclick="riscarTexto('c3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('c4')">✓</div><div id="c4" class="label">Contrato de compra e venda ou escritura (Seguência de documentos a partir do nome que está no carnê de IPTU)</div><div class="ctrl-right" onclick="riscarTexto('c4')">✕</div></div>
-        </div>
-    </section>
-
-    <!-- PROPRIETÁRIO -->
-    <section id="conteudo-proprietario" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Alteração de Proprietário</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('p1')">✓</div><div id="p1" class="label">Apresentar a Matrícula Atualizada</div><div class="ctrl-right" onclick="riscarTexto('p1')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('p3')">✓</div><div id="p3" class="label">Espelho de IPTU se possível</div><div class="ctrl-right" onclick="riscarTexto('p3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('p4')">✓</div><div id="p4" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('p4')">✕</div></div>
-        </div>
-    </section>
-
-    <!-- REVISÃO DE ÁREA -->
-    <section id="conteudo-revisao" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Revisão de Área</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('r2')">✓</div><div id="r2" class="label">Espelho de IPTU</div><div class="ctrl-right" onclick="riscarTexto('r2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('r3')">✓</div><div id="r3" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('r3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('r4')">✓</div><div id="r4" class="label">Comprovante de Endereço</div><div class="ctrl-right" onclick="riscarTexto('r4')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('r5')">✓</div><div id="r5" class="label">Documento do Imóvel</div><div class="ctrl-right" onclick="riscarTexto('r5')">✕</div></div>
-            <div class="nota">Observação: Se o nome do requerente não consta no IPTU, apresentar sequência documental do titular.</div>
-            <div class="nota">Cadastramento de Área, entrar em contato com Secretaria do planejamento .</div>
-        </div>
-    </section>
-
-    <!-- SUB-UNIDADES -->
-    <section id="conteudo-subunidades" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Lançamento / Exclusão de Subunidades</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('s2')">✓</div><div id="s2" class="label">Espelho de IPTU</div><div class="ctrl-right" onclick="riscarTexto('s2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('s3')">✓</div><div id="s3" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('s3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('s4')">✓</div><div id="s4" class="label">Comprovante de Endereço</div><div class="ctrl-right" onclick="riscarTexto('s4')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('s5')">✓</div><div id="s5" class="label">Certidão Negativa de Débitos Imobiliários</div><div class="ctrl-right" onclick="riscarTexto('s5')">✕</div></div>
-            <div class="nota">Em caso do nome do requerente não constar no IPTU: apresentar sequência de documentos a partir do nome que consta no IPTU.</div>
-        </div>
-    </section>
-
-    <!-- DESDOBRO / FUSÃO -->
-    <section id="conteudo-desdobro" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Desdobro / Fusão</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('d2')">✓</div><div id="d2" class="label">Espelho de IPTU</div><div class="ctrl-right" onclick="riscarTexto('d2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('d3')">✓</div><div id="d3" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('d3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('d4')">✓</div><div id="d4" class="label">Comprovante de Endereço</div><div class="ctrl-right" onclick="riscarTexto('d4')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('d5')">✓</div><div id="d5" class="label">Matrícula desdobrada e/ou Certidão de Desdobro e croqui</div><div class="ctrl-right" onclick="riscarTexto('d5')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('d6')">✓</div><div id="d6" class="label">Sequência de contratos de compra e venda (se aplicável)</div><div class="ctrl-right" onclick="riscarTexto('d6')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('d7')">✓</div><div id="d7" class="label">Certidão Negativa de Débitos Imobiliários, NÃO PODE POSSUIR DEBITOS IMOBILIÁRIOS</div><div class="ctrl-right" onclick="riscarTexto('d7')">✕</div></div>
-            <div class="nota">Caso o desdobro for de área maior anexar croqui e Planta planialtimétrica para localização.</div>
-        </div>
-    </section>
-
-    <!-- CERTIDÕES -->
-    <section id="conteudo-certidoes" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Certidões</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ce1')">✓</div><div id="ce1" class="label">Especificação da certidão requerida</div><div class="ctrl-right" onclick="riscarTexto('ce1')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ce2')">✓</div><div id="ce2" class="label">Espelho de IPTU</div><div class="ctrl-right" onclick="riscarTexto('ce2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ce3')">✓</div><div id="ce3" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('ce3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ce4')">✓</div><div id="ce4" class="label">DOCUMENTOS DO IMÓVEL (CASO O NOME DO SOLICITANTE NÃO CONSTE NO ESPELHO DE IPTU)</div><div class="ctrl-right" onclick="riscarTexto('ce4')">✕</div></div>
-        </div>
-    </section>
-
-    <!-- INDIVIDUALIZAÇÃO DE CONDOMÍNIO -->
-    <section id="conteudo-condominio" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Individualização de Condomínio</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('co1')">✓</div><div id="co1" class="label">Espelho de IPTU da área maior (matriz)</div><div class="ctrl-right" onclick="riscarTexto('co1')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('co2')">✓</div><div id="co2" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('co2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('co4')">✓</div><div id="co4" class="label">Matrícula mãe (área maior)</div><div class="ctrl-right" onclick="riscarTexto('co4')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('co5')">✓</div><div id="co5" class="label">Matrículas individualizadas</div><div class="ctrl-right" onclick="riscarTexto('co5')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('co6')">✓</div><div id="co6" class="label">Memorial de Cálculo das Unidades (NBR)</div><div class="ctrl-right" onclick="riscarTexto('co6')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('co7')">✓</div><div id="co7" class="label">Alvará de Ocupação total</div><div class="ctrl-right" onclick="riscarTexto('co7')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('co8')">✓</div><div id="co8" class="label">Certidão Negativa de Débitos Imobiliários</div><div class="ctrl-right" onclick="riscarTexto('co8')">✕</div></div>
-        </div>
-    </section>
-
-    <!-- CADASTRAMENTO DE ÁREA -->
-    <section id="conteudo-cadastramento" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Cadastramento de Área</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ca1')">✓</div><div id="ca1" class="label">Documentos Pessoais (RG e CPF)</div><div class="ctrl-right" onclick="riscarTexto('ca1')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ca2')">✓</div><div id="ca2" class="label">Comprovante de Endereço</div><div class="ctrl-right" onclick="riscarTexto('ca2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ca3')">✓</div><div id="ca3" class="label">Matrícula ou Transcrição do Imóvel</div><div class="ctrl-right" onclick="riscarTexto('ca3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ca4')">✓</div><div id="ca4" class="label">Certidão de Perímetro</div><div class="ctrl-right" onclick="riscarTexto('ca4')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ca5')">✓</div><div id="ca5" class="label">Levantamento Planialtimétrico</div><div class="ctrl-right" onclick="riscarTexto('ca5')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ca6')">✓</div><div id="ca6" class="label">Descadastramento do INCRA (ITR) Memorial Descritivo- quando aplicável</div><div class="ctrl-right" onclick="riscarTexto('ca6')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('ca7')">✓</div><div id="ca7" class="label">Memorial Descritivo- quando aplicável</div><div class="ctrl-right" onclick="riscarTexto('ca7')">✕</div></div>
-        </div>
-    </section>
-
-    <!-- CADASTRO DE POSSUIDOR (ABAS 9) -->
-    <section id="conteudo-possuidor" class="conteudo" style="display:none">
-        <h2 style="color:var(--text)">Cadastro de Possuidor</h2>
-        <div class="card">
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g1')">✓</div><div id="g1" class="label">REQUERIMENTO PADRÃO devidamente preenchido</div><div class="ctrl-right" onclick="riscarTexto('g1')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g2')">✓</div><div id="g2" class="label">Cópia simples dos DOCUMENTOS PESSOAIS do requerente (RG e CPF) — OBRIGATÓRIO (registrar firma em cartório)</div><div class="ctrl-right" onclick="riscarTexto('g2')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g3')">✓</div><div id="g3" class="label">Cópia simples do CONTRATO SOCIAL ou ESTATUTO (quando pessoa jurídica)</div><div class="ctrl-right" onclick="riscarTexto('g3')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g4')">✓</div><div id="g4" class="label">PROCURAÇÃO original com firma reconhecida e RG/CPF do procurador</div><div class="ctrl-right" onclick="riscarTexto('g4')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g5')">✓</div><div id="g5" class="label">DECLARAÇÃO DE POSSE assinada por 3 (três) vizinhos, com RG e CPF preenchidos e firma reconhecida</div><div class="ctrl-right" onclick="riscarTexto('g5')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g6')">✓</div><div id="g6" class="label">Cópia simples do COMPROVANTE DE RESIDÊNCIA EM NOME DOS VIZINHOS que assinaram a declaração de posse</div><div class="ctrl-right" onclick="riscarTexto('g6')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g7')">✓</div><div id="g7" class="label">Cópia simples de CONTAS DE CONSUMO (água, luz, telefone) em nome do requerente — MINIMO ÚLTIMOS 5 ANOS</div><div class="ctrl-right" onclick="riscarTexto('g7')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g8')">✓</div><div id="g8" class="label">Cópia simples dos CONTRATOS DE COMPRA E VENDA (se possuir)</div><div class="ctrl-right" onclick="riscarTexto('g8')">✕</div></div>
-            <div class="item"><div class="ctrl-left" onclick="marcarTexto('g9')">✓</div><div id="g9" class="label">Comprovante de pagamento da TAXA DE EXPEDIENTE (emitida no momento da entrada do pedido)</div><div class="ctrl-right" onclick="riscarTexto('g9')">✕</div></div>
-            <div class="nota">Caso julgue necessário o setor responsável poderá solicitar originais ou documentos complementares. Em caso de solicitação por terceiros, anexar procuração ou documentos que comprovem vínculo com o proprietário/requerente.</div>
-        </div>
-    </section>
-
-    <!-- BOTÃO Certidão -->    
-        <div class="card">
-                <a href="certidao.html" class="btn-certidao">
-                    CERTIDÃO
-                </a>
-        </div>
-
-
-<!-- =============================== -->
-<!-- MENU FLUTUANTE SMARTWATCH -->
-<!-- =============================== -->
-<div class="fab-container">
-
-    <!-- Botão principal -->
-    <button class="fab-main" onclick="toggleFab()">☰</button>
-
-    <!-- Botões internos -->
-    <div class="fab-actions">
-
-        <a href="certidao.html" class="fab-btn">📄 Certidão</a>
-
-        <button class="fab-btn" onclick="window.location.href='qrcode.html'">
-            🔳 QR Code
-        </button>
-
-        <button class="fab-btn" onclick="window.open('galeria.html','galeria','width=1000,height=700')">
-            📷 Galeria
-        </button>
-
-        <button class="fab-btn" onclick="toggleRamal()">
-            📞 Ramais
-        </button>
-
-        <button class="fab-btn" onclick="toggleInfoExtras()">
-            📚 Info Extras
-        </button>
-
     </div>
-</div>
 
+    <!-- IP Binário para Decimal -->
+    <div class="card">
+        <h2>IP Binário → Decimal</h2>
+        <p>Converte IPv4 binário para formato decimal.</p>
 
+        <input type="text" id="ipBinario" placeholder="Ex: 11000000.10101000.00000001.00001010">
+        <button onclick="binarioParaDecimal()">Converter</button>
 
-<!-- BOTÃO QrCode <button id="aba-qrcode" onclick="window.location.href='qrcode.html'">
-    Gerar Code #QR
-</button> -->
+        <div class="result" id="resultadoDecimal"></div>
 
-        
-<!-- BOTÃO RAMAL -->
-<button id="ramalBtn" style="
-    position: fixed;
-    right: 130px;
-    bottom: 10px;
-    padding: 10px 14px;
-    background: #2e8b57;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 9999;
-">Lembrete Ramal</button>
-
-<!-- PAINEL RAMAL -->
-<div id="ramalBox" style="
-    position: fixed;
-    right: 130px;
-    bottom: 60px;
-    width: 330px;
-    height: 420px;
-    background: white;
-    border: 2px solid #2e8b57;
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-    display: none;
-    overflow-y: auto;
-    z-index: 9999;
-    font-size: 14px;
-    line-height: 1.45;
-">
-
-<h3 style="margin-top:0; color:#2e8b57;">📞 Ramais e Atendimentos</h3>
-
-<div>
-    <b> Av. Paulo Portela, 210 – Jd. Paulista – SP</b>b<br>
-    <b>SALA 102 – PLANEJAMENTO</b><br>
-    <b>Ramal:</b> 2028 | 2175 | 2158<br>
-    • Certidões de Desdobro<br>
-    • Uso do Solo<br>
-    • Plantas<br>
-    • Verificar Zona Rural<br>
-    • ITR<br>
-    • Saber quem é o proprietário<br>
-    • IPTU novo (quando não possui)<br>
-    • Certidão de denominação de rua<br><br>
-
-    <b>SALA 103 – OBRAS</b><br>
-    <b>Ramal:</b> 2162 | 2083<br>
-    • Fiscalização de Obras<br>
-    • Certificado Digital<br>
-    • Número Oficial<br>
-    • Erro no Endereço<br><br>
-
-    <b>SALA 104 – APROVAÇÃO DE PROJETOS</b><br>
-    <b>Ramal:</b> 2128<br>
-    • Projetos<br>
-    • Renovação<br>
-    • Planta Popular<br>
-    • Alvará<br><br>
-
-    <b>SALA 106 – HABITAÇÃO</b><br>
-    <b>Ramal:</b> 2162 | 2073<br>
-    • Regularização Fundiária<br>
-    • Obras e Engenharia<br><br>
-
-    <b>SALA 201 – ASSESSORIA DE RECEITA</b><br>
-    <b>Ramais:</b> 2002 (Cancelamento CCM) | 2003 (Isenção) | 2022 (VRE)<br><br>
-
-    <b>SALA 202 – CADASTRO MOBILIÁRIO</b><br>
-    <b>Ramais:</b> 2025 | 2013<br>
-    • Fiscalização ICAD<br>
-    • CCM – Cadastro de Contribuinte Mobiliário<br>
-    • Erro de endereço no CNPJ<br>
-    • Inscrição Municipal<br><br>
-
-    <b>SALA 203 – FISCALIZAÇÃO TRIBUTÁRIA</b><br>
-    <b>Ramais:</b> 2023 | 2012<br>
-    • CNPJ<br>
-    • ISS<br>
-    • Alvará de Funcionamento<br><br>
-
-    <b>SALA 204 – CADASTRO IMOBILIÁRIO</b><br>
-    <b>Ramais:</b> 2010 | 2024 (ITBI)<br><br>
-
-    <b>SALA 205 – DÍVIDA ATIVA</b><br>
-    <b>Ramais:</b> 2007 | 2008 (WhatsApp – Parcelamento/Refis)<br>
-    • CND – Certidão Negativa de Débitos<br><br>
-
-    <b>SALA 207 – ANÁLISE DE RECEITA</b><br>
-    <b>Ramal:</b> 2006 (Elmo e Helena)<br><br>
-
-    <b>SALA 207 – DIRETORIA DE RECEITA</b><br>
-    <b>Ramal:</b> 2036 (Sara e Dani)<br><br>
-
-    <b>SALA 208 – MOISÉS ALVES</b><br>
-    <b>Ramal:</b> 2004<br><br>
-
-    <b>POSTURAS</b><br>
-    <b>Ramal:</b> 2046<br>
-    • Verificar conformidade do imóvel (calçada etc.)<br><br>
-
-    <b>PROTOCOLO</b><br>
-    <b>Ramais:</b> 2267 (recepção) | 2266<br>
-    • Boletos<br>
-    • Certidão de Valor Venal (anos anteriores) – CVV<br>
-    • Certidão Negativa de Propriedade – CNP (com taxa)<br>
-
-        <br>
-        <b>IMPRESSORA</b><br>
-        <b>Ramais:</b> 4745-2181 / 97039-3260<br>
-        • Sheila e Anderson<br><br>
-        
-        <b>DTI – TI</b><br>
-        <b>Ramais:</b> 4745-2151 (Vinícius / Richard) | 4745-2051 (Bruno)<br>
-        • Suporte técnico geral<br><br>
-        
-        <b>CDZ</b><br>
-        <b>Ramais:</b> 4292-6001 | Caio 97317-3725 (GRP – problemas)<br><br>
-        
-        <b>ARQUIVO</b><br>
-        <b>Ramal:</b> 4742-3461<br><br>
-        
-        <b>GERAL</b><br>
-        <b>Ramal:</b> 4745-2000<br><br>
-        
-        <b>DEFESA CIVIL</b><br>
-        <b>Ramal:</b> 4748-5394<br><br>
-        
-        <b>RH</b><br>
-        <b>Ramais:</b> 4745-2110 / 4745-2015 / 4745-2079 (Inês)<br>
-        <b>PASEP:</b> 4745-2167 (André / Neusa)<br><br>
-        
-        <b>OUVIDORIA</b><br>
-        <b>Ramal:</b> 0800 774-2007<br><br>
-        
-        <b>JURÍDICO</b><br>
-        <b>Ramais:</b> 4745-2053 / 4745-2267<br><br>
-        
-        <b>MILÊNIO (Fixo)</b><br>
-        <b>Ramal:</b> 4513-3936<br><br>
-        
-        <b>SULFITE</b><br>
-        <b>Ramal:</b> 4745-2181<br><br>
-        
-        <b>SUPORTE ACTO</b><br>
-        <b>WhatsApp:</b> 97211-8657<br><br>
-        
-        <b>E-MAIL – CADASTRO IMOBILIÁRIO</b><br>
-        cadastro.imobiliario@suzano.sp.gov.br<br><br>
-        
-        <b>E-MAIL – ITBI</b><br>
-        smf.itbi@suzano.sp.gov.br<br>
-        suzanocadastro@gmail.com<br><br>
-        
-        <b>E-MAIL – OUVIDORIA</b><br>
-        ouvidoria@suzano.sp.gov.br<br><br>
-
-        <b>LEMBRETES</b>
-        <br>• Formal de Partilha...<br><br>
-        • FAR: 120 meses pra poder vender...<br><br>
-        • DTI: 4745-2151...<br><br>
-        • Sonner: 4292-6001 <br><br>
-        • Watzap Sonner: 97317-3725...<br><br>        
-        
-</div>
-    <!-- BOTÃO galeria -->    
-<button id="galeriaBtn" style="
-    position: fixed;
-    right: 10px;
-    bottom: 160px; /* ajusta a altura */
-    padding: 10px 14px;
-    background: #ff9800;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 9999;
-">
-📷 Galeria
-</button>
-
-<script>
-document.getElementById("galeriaBtn").onclick = () => {
-    window.open(
-        'galeria.html',
-        'galeria',
-        'width=1000,height=700'
-    );
-};
-</script>
-
-                <!-- BOTÃO INFO EXTRAS -->
-        <button id="infoExtrasBtn" style="
-            position: fixed;
-            right: 260px;
-            bottom: 10px;
-            padding: 10px 14px;
-            background: #9c27b0;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 9999;
-        ">Info Extras</button>
-        
-        <!-- PAINEL INFO EXTRAS -->
-        <div id="infoExtrasBox" style="
-            position: fixed;
-            right: 260px;
-            bottom: 60px;
-            width: 380px;
-            height: 480px;
-            background: white;
-            border: 2px solid #9c27b0;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-            display: none;
-            overflow-y: auto;
-            z-index: 9999;
-            font-size: 14px;
-        ">
-        
-        <h3 style="margin-top:0; color:#9c27b0;">📚 Informações Extras</h3>
-        
-        <style>
-        .ex-btn {
-            width: 100%;
-            text-align: left;
-            padding: 10px;
-            background: #f3d9fa;
-            border: 1px solid #bc5ed3;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 6px;
-        }
-        .ex-content {
-            display: none;
-            background: #ffffff;
-            border: 1px solid #bc5ed3;
-            border-radius: 6px;
-            padding: 10px;
-            margin-top: 3px;
-            font-size: 14px;
-            line-height: 1.45;
-        }
-        </style>
-        
-        <script>
-        function toggleExtra(id){
-            const el = document.getElementById(id);
-            el.style.display = el.style.display === "block" ? "none" : "block";
-        }
-        
-        const infoBtn = document.getElementById("infoExtrasBtn");
-        const infoBox = document.getElementById("infoExtrasBox");
-        
-        infoBtn.onclick = () => {
-            infoBox.style.display =
-                infoBox.style.display === "none" ? "block" : "none";
-        };
-        </script>
-        
-        <!-- CONTEÚDOS COMO ACORDEÃO -->
-        
-        <!-- CADASTRO DE ÁREA -->
-        <button class="ex-btn" onclick="toggleExtra('cadAreaEX')">📌 Cadastro de Área</button>
-        <div id="cadAreaEX" class="ex-content">
-        • Sec. Planejamento Urbano e Habitação<br>
-        • Certidão de perímetro<br>
-        • Croqui<br>
-        • Matrícula<br>
-        • INCRA (descadastramento se houver)<br>
-        • Documentos pessoais<br>
+        <div class="tip">
+            Dica: 8 bits por octeto, separados por ponto.
         </div>
-        
-        <!-- IPCA -->
-        <button class="ex-btn" onclick="toggleExtra('ipcaEX')">📊 IPCA</button>
-        <div id="ipcaEX" class="ex-content">
-        <b>IPCA 2024:</b> 4,82%<br>
-        <b>IPCA 2025:</b> 4,76%
+    </div>
+
+    <!-- Espaço para futuras ferramentas -->
+    <div class="card">
+        <h2>🚧 Em breve</h2>
+        <p>Subnet, CIDR, Máscara, Range de IPs, Broadcast…</p>
+        <div class="tip">
+            Estrutura pronta para expansão.
         </div>
-        
-        <!-- PGV -->
-        <button class="ex-btn" onclick="toggleExtra('pgvEX')">📐 PGV – Lei 309/17</button>
-        <div id="pgvEX" class="ex-content">
-        Utilizado para cálculo do IPTU com base na Planta Genérica de Valores.
-        </div>
-        
-        <!-- GEBELIM -->
-        <button class="ex-btn" onclick="toggleExtra('gebEX')">🏢 GEBELIM – Dados</button>
-        <div id="gebEX" class="ex-content">
-        <b>GEBELIM – Empreend. Imob. LTDA</b><br>
-        Cód. Red.: 12683<br>
-        Rua Almirante Barroso, 587 – Brás – SP<br><br>
-        <b>Pessoas ligadas:</b><br>
-        Carlos / Aparicio / Elisa / Sandra / Renato / Denise<br><br>
-        <b>Relações:</b><br>
-        • GEBELIM – IBIAÇU = CONDE<br>
-        • PAULISTERRA = MASA<br>
-        • DALAR = PROBASE<br>
-        • MANDUX / HRF (?)<br>
-        </div>
-        
-        <!-- CERTIDÕES ACTO -->
-        <button class="ex-btn" onclick="toggleExtra('certEX')">📄 Certidões ACTO (Pagas)</button>
-        <div id="certEX" class="ex-content">
-        • CVV anos anteriores<br>
-        • CVV não lançada<br>
-        • Valor venal por m²<br>
-        • Época de lançamento (construção/IPTU)<br>
-        • Confrontações – 10 dias<br>
-        • CNP – 3 dias<br>
-        • Certidão originária (subunidade)<br><br>
-        <b>Obs.:</b> Certidão Negativa de Tributos Imobiliários = CND
-        </div>
-        
-        <!-- ASSINATURA DIGITAL -->
-        <button class="ex-btn" onclick="toggleExtra('assinEX')">🖊️ Assinatura Digital – Lei 14.063/20</button>
-        <div id="assinEX" class="ex-content">
-        Assinatura ICP Brasil.<br><br>
-        <b>Níveis:</b><br>
-        • Simples<br>
-        • Avançada<br>
-        • Qualificada (usa para tudo)<br><br>
-        <b>Obrigatória para:</b><br>
-        • Chefes de poder<br>
-        • NF-e (exceto PF/MEI)<br>
-        • Transferência e registro de imóveis<br>
-        </div>
-        
-        <!-- TRANSCRIÇÃO -->
-        <button class="ex-btn" onclick="toggleExtra('transEX')">📑 Transcrição</button>
-        <div id="transEX" class="ex-content">
-        Usada para <b>divisão de lote</b>.<br>
-        Não altera proprietário.<br><br>
-        Base: Lei 6.015/73.
-        </div>
-        
-        <!-- ITBI -->
-        <button class="ex-btn" onclick="toggleExtra('itbiEX')">💰 ITBI – Cálculo</button>
-        <div id="itbiEX" class="ex-content">
-        <b>À vista:</b> 2%<br>
-        <b>Financiado:</b> entrada 2% + saldo 0,5%<br>
-        <b>Prazo:</b> 60 dias
-        </div>
-        
-        <!-- TAXA DE LUZ -->
-        <button class="ex-btn" onclick="toggleExtra('luzEX')">💡 Taxa de Luz – Lei 262/2014</button>
-        <div id="luzEX" class="ex-content">
-        Legislação municipal sobre a cobrança da iluminação pública.
-        </div>
-        
-        <!-- TREVISAN -->
-        <button class="ex-btn" onclick="toggleExtra('trevEX')">🏛️ TREVISAN → MAZA</button>
-        <div id="trevEX" class="ex-content">
-        Mudança cadastral/administrativa registrada internamente.
-        </div>
-        
-        <!-- NUA PROPRIEDADE -->
-        <button class="ex-btn" onclick="toggleExtra('nuaEX')">🏠 Nua Propriedade / Usufruto</button>
-        <div id="nuaEX" class="ex-content">
-        <b>Nua Propriedade:</b> dono sem uso.<br>
-        <b>Usufruto vitalício:</b> pode usar mesmo sem ser dono.
-        </div>
-        
-        <!-- ALTERAR NOME DE RUA -->
-        <button class="ex-btn" onclick="toggleExtra('ruaEX')">📍 Alteração de Nome de Rua</button>
-        <div id="ruaEX" class="ex-content">
-        • Tabela<br>
-        • Endereço<br>
-        • Logradouro<br>
-        • Código do imóvel<br>
-        • Tipo = Rua<br>
-        • Novo nome<br>
-        • Data<br>
-        • Lei<br>
-        </div>
-        
-        <!-- FAR / CEF -->
-        <button class="ex-btn" onclick="toggleExtra('farEX')">🏦 FAR / CEF</button>
-        <div id="farEX" class="ex-content">
-        Venda só após <b>120 meses</b> + matrícula no nome do comprador.</div>
-       
-        <!-- cartorio imob -->
-        <button class="ex-btn" onclick="toggleExtra('imovEX')">🏦 Cartório de Imoveis / CEF</button>
-        <div id="imovEX" class="ex-content">
-        Endereço: R. José García de Souza, 74 - Parque Suzano, Suzano - SP, 08673-040 <b> Telefone</b>  (11) 4747-3719.</div>
-</div>
+    </div>
+
 </div>
 
 <script>
-const ramalBtn = document.getElementById("ramalBtn");
-const ramalBox = document.getElementById("ramalBox");
+function decimalParaBinario() {
+    const ip = document.getElementById("ipDecimal").value;
+    const octetos = ip.split(".");
 
-ramalBtn.onclick = () => {
-    ramalBox.style.display =
-        ramalBox.style.display === "none" ? "block" : "none";
-};
+    if (octetos.length !== 4) {
+        document.getElementById("resultadoBinario").innerText = "IP inválido";
+        return;
+    }
+
+    const binario = octetos.map(o => {
+        const n = parseInt(o);
+        if (n < 0 || n > 255 || isNaN(n)) return null;
+        return n.toString(2).padStart(8, "0");
+    });
+
+    if (binario.includes(null)) {
+        document.getElementById("resultadoBinario").innerText = "IP inválido";
+        return;
+    }
+
+    document.getElementById("resultadoBinario").innerText = binario.join(".");
+}
+
+function binarioParaDecimal() {
+    const ip = document.getElementById("ipBinario").value;
+    const octetos = ip.split(".");
+
+    if (octetos.length !== 4) {
+        document.getElementById("resultadoDecimal").innerText = "IP inválido";
+        return;
+    }
+
+    const decimal = octetos.map(b => {
+        if (!/^[01]{8}$/.test(b)) return null;
+        return parseInt(b, 2);
+    });
+
+    if (decimal.includes(null)) {
+        document.getElementById("resultadoDecimal").innerText = "IP inválido";
+        return;
+    }
+
+    document.getElementById("resultadoDecimal").innerText = decimal.join(".");
+}
 </script>
 
-/* script comeia */
-<script>
-        /* ===== AÇÕES CENTRAIS ===== */
-        
-        function abrirCertidao() {
-            window.location.href = 'certidao.html';
-        }
-        
-        function abrirQRCode() {
-            window.location.href = 'qrcode.html';
-        }
-        
-        function abrirGaleria() {
-            window.open('galeria.html', 'galeria', 'width=1000,height=700');
-        }
-        
-        function abrirRamais() {
-            const box = document.getElementById('ramalBox');
-            box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        function abrirInfoExtras() {
-            const box = document.getElementById('infoExtrasBox');
-            box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-</script>
-
-
-
-</div>
 </body>
 </html>
-
