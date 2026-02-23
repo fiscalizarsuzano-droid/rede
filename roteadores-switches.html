@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteadores e Switches - Administração</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #1e6c94;
+    color: #d0d3d9;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    gap: 20px;
+}
+
+.card {
+    background: #020617;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #60a5fa;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+.code-box {
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: monospace;
+    margin-top: 10px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+.button-group {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.button-group button:hover {
+    background: #1d4ed8;
+}
+
+/* FAB */
+.fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: #509cba;
+    color: white;
+    font-size: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    z-index: 9999;
+}
+
+/* Menu */
+.floating-menu {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 240px;
+    background: #020617;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.floating-menu button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #1e293b;
+    color: white;
+    cursor: pointer;
+}
+
+.floating-menu button:hover {
+    background: #334155;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔀 Roteadores e Switches - Administração</h1>
+
+<div class="container">
+
+<div class="card">
+<h2>VLAN e Switch</h2>
+<ul>
+<li>Criação de VLAN</li>
+<li>Porta Access</li>
+<li>Porta Trunk</li>
+<li>Segmentação de rede</li>
+</ul>
+
+<div class="code-box">
+enable
+configure terminal
+
+vlan 10
+name ADMINISTRATIVO
+
+interface fastEthernet 0/1
+switchport mode access
+switchport access vlan 10
+
+interface gigabitEthernet 0/1
+switchport mode trunk
+</div>
+</div>
+
+<div class="card">
+<h2>Roteamento</h2>
+<ul>
+<li>Roteamento estático</li>
+<li>Gateway padrão</li>
+<li>Roteamento entre VLANs</li>
+</ul>
+
+<div class="code-box">
+interface gigabitEthernet 0/0
+ip address 192.168.1.1 255.255.255.0
+no shutdown
+
+ip route 0.0.0.0 0.0.0.0 192.168.1.254
+</div>
+</div>
+
+<div class="card">
+<h2>ACL (Access Control List)</h2>
+<ul>
+<li>Permitir/Bloquear tráfego</li>
+<li>Controle por IP</li>
+<li>Aplicação em interface</li>
+</ul>
+
+<div class="code-box">
+access-list 10 permit 192.168.1.0 0.0.0.255
+access-list 10 deny any
+
+interface gigabitEthernet 0/0
+ip access-group 10 in
+</div>
+</div>
+
+<div class="card">
+<h2>Comandos de Diagnóstico</h2>
+
+<div class="code-box">
+show ip route
+show vlan brief
+show running-config
+show interfaces
+ping 8.8.8.8
+traceroute 8.8.8.8
+</div>
+
+<div class="button-group">
+<button onclick="copiarComandos()">Copiar Comandos</button>
+<button onclick="voltar()">Voltar</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- FAB -->
+<div class="fab" onclick="toggleMenu()">☰</div>
+
+<div class="floating-menu" id="floatingMenu">
+<button onclick="abrirPagina('index.html')">🏠 Início</button>
+<button onclick="abrirPagina('windows-server.html')">Windows Server</button>
+<button onclick="abrirPagina('servicos-rede.html')">Serviços</button>
+<button onclick="abrirPagina('gerenciamento-redes.html')">Gerenciamento</button>
+</div>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("floatingMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function abrirPagina(pagina) {
+    window.location.href = pagina;
+}
+
+function voltar() {
+    window.location.href = "index.html";
+}
+
+function copiarComandos() {
+    const texto = document.querySelectorAll(".code-box");
+    let conteudo = "";
+    texto.forEach(c => conteudo += c.innerText + "\n\n");
+    navigator.clipboard.writeText(conteudo);
+    alert("Comandos copiados!");
+}
+</script>
+
+</body>
+</html>
