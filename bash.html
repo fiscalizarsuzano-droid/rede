@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Didático - Linux e Bash</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    padding: 20px;
+}
+h1, h2, h3 {
+    color: #38bdf8;
+}
+code {
+    background-color: #1e293b;
+    padding: 3px 6px;
+    border-radius: 4px;
+    color: #facc15;
+}
+pre {
+    background-color: #1e293b;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+.section {
+    margin-bottom: 40px;
+}
+.card {
+    background-color: #1e293b;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+ul {
+    line-height: 1.6;
+}
+</style>
+</head>
+<body>
+
+<h1>Guia Didático - Hierarquia de Arquivos e Comandos Linux</h1>
+
+<div class="section">
+<h2>1. Estrutura de Diretórios (Hierarquia)</h2>
+
+<pre>
+/
+├── bin
+├── boot
+├── dev
+├── etc
+├── home
+│   └── usuario
+├── lib
+├── media
+├── tmp
+├── usr
+└── var
+</pre>
+
+<div class="card">
+<ul>
+<li><code>/</code> → Raiz do sistema (tudo começa aqui)</li>
+<li><code>/home</code> → Pasta dos usuários</li>
+<li><code>/bin</code> → Comandos essenciais</li>
+<li><code>/etc</code> → Arquivos de configuração</li>
+<li><code>/usr</code> → Programas instalados</li>
+<li><code>/var</code> → Logs e arquivos variáveis</li>
+<li><code>/tmp</code> → Arquivos temporários</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>2. Navegação na Árvore</h2>
+
+<div class="card">
+<ul>
+<li><code>pwd</code> → Mostra onde você está</li>
+<li><code>ls</code> → Lista arquivos</li>
+<li><code>ls -l</code> → Lista detalhada</li>
+<li><code>ls -a</code> → Mostra arquivos ocultos</li>
+<li><code>cd pasta</code> → Entra na pasta</li>
+<li><code>cd ..</code> → Volta um nível</li>
+<li><code>cd /</code> → Vai para a raiz</li>
+<li><code>cd ~</code> → Vai para sua home</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>3. Manipulação de Arquivos</h2>
+
+<div class="card">
+<ul>
+<li><code>touch arquivo.txt</code> → Cria arquivo vazio</li>
+<li><code>mkdir pasta</code> → Cria diretório</li>
+<li><code>rm arquivo.txt</code> → Remove arquivo</li>
+<li><code>rm -r pasta</code> → Remove pasta</li>
+<li><code>cp origem destino</code> → Copia arquivo</li>
+<li><code>mv origem destino</code> → Move ou renomeia</li>
+<li><code>cat arquivo.txt</code> → Mostra conteúdo</li>
+<li><code>less arquivo.txt</code> → Visualiza paginado</li>
+<li><code>head arquivo.txt</code> → Primeiras linhas</li>
+<li><code>tail arquivo.txt</code> → Últimas linhas</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>4. Permissões</h2>
+
+<div class="card">
+<ul>
+<li><code>chmod 755 arquivo</code> → Muda permissões</li>
+<li><code>chown usuario arquivo</code> → Muda dono</li>
+<li><code>ls -l</code> → Mostra permissões</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>5. Processos</h2>
+
+<div class="card">
+<ul>
+<li><code>ps</code> → Lista processos</li>
+<li><code>top</code> → Monitor em tempo real</li>
+<li><code>htop</code> → Monitor avançado</li>
+<li><code>kill PID</code> → Encerra processo</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>6. Rede</h2>
+
+<div class="card">
+<ul>
+<li><code>ping site.com</code> → Testa conexão</li>
+<li><code>ip a</code> → Mostra IP</li>
+<li><code>curl url</code> → Faz requisição web</li>
+<li><code>wget url</code> → Baixa arquivo</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>7. Pacotes (Debian/Ubuntu)</h2>
+
+<div class="card">
+<ul>
+<li><code>sudo apt update</code> → Atualiza lista</li>
+<li><code>sudo apt upgrade</code> → Atualiza sistema</li>
+<li><code>sudo apt install pacote</code> → Instala</li>
+<li><code>sudo apt remove pacote</code> → Remove</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>8. Variáveis e Sistema</h2>
+
+<div class="card">
+<ul>
+<li><code>echo $PATH</code> → Mostra caminhos de comandos</li>
+<li><code>which comando</code> → Mostra localização</li>
+<li><code>history</code> → Histórico de comandos</li>
+<li><code>clear</code> → Limpa terminal</li>
+<li><code>man comando</code> → Manual</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>9. Compactação</h2>
+
+<div class="card">
+<ul>
+<li><code>tar -cvf arquivo.tar pasta</code></li>
+<li><code>tar -xvf arquivo.tar</code></li>
+<li><code>zip arquivo.zip pasta</code></li>
+<li><code>unzip arquivo.zip</code></li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>Regra Mental Final</h2>
+<div class="card">
+<p>✔ Tudo começa em <code>/</code></p>
+<p>✔ Pense sempre: "Onde estou?" → <code>pwd</code></p>
+<p>✔ Liste antes de agir → <code>ls</code></p>
+<p>✔ Teste na sua <code>/home</code></p>
+</div>
+</div>
+
+</body>
+</html>
