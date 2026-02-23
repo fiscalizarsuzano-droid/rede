@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serviços de Rede - Administração</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #1e6c94;
+    color: #d0d3d9;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    gap: 20px;
+}
+
+.card {
+    background: #020617;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #60a5fa;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+.code-box {
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: monospace;
+    margin-top: 10px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+.button-group {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.button-group button:hover {
+    background: #1d4ed8;
+}
+
+/* FAB */
+.fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: #509cba;
+    color: white;
+    font-size: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    z-index: 9999;
+}
+
+/* Menu */
+.floating-menu {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 240px;
+    background: #020617;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.floating-menu button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #1e293b;
+    color: white;
+    cursor: pointer;
+}
+
+.floating-menu button:hover {
+    background: #334155;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌐 Serviços de Rede - Administração</h1>
+
+<div class="container">
+
+<div class="card">
+<h2>Proxy / Squid</h2>
+<ul>
+<li>Controle de acesso à internet</li>
+<li>Cache de conteúdo</li>
+<li>Bloqueio por ACL</li>
+<li>Autenticação via AD/LDAP</li>
+</ul>
+
+<div class="code-box">
+systemctl status squid
+nano /etc/squid/squid.conf
+acl rede_local src 192.168.0.0/24
+http_access allow rede_local
+systemctl restart squid
+</div>
+</div>
+
+<div class="card">
+<h2>Postfix (Servidor de E-mail)</h2>
+<ul>
+<li>MTA (Mail Transfer Agent)</li>
+<li>Relay control</li>
+<li>Anti-spam básico</li>
+<li>Integração com DNS e SPF</li>
+</ul>
+
+<div class="code-box">
+systemctl status postfix
+postconf -n
+tail -f /var/log/mail.log
+systemctl restart postfix
+</div>
+</div>
+
+<div class="card">
+<h2>VPN</h2>
+<ul>
+<li>Acesso remoto seguro</li>
+<li>Túnel criptografado</li>
+<li>Site-to-site</li>
+<li>Controle por certificado ou usuário/senha</li>
+</ul>
+
+<div class="code-box">
+systemctl status openvpn
+cat /etc/openvpn/server.conf
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</div>
+</div>
+
+<div class="card">
+<h2>NAT / ACL / QoS</h2>
+<ul>
+<li>NAT: Tradução de IP</li>
+<li>ACL: Controle de tráfego</li>
+<li>QoS: Priorização de banda</li>
+</ul>
+
+<div class="code-box">
+# NAT
+iptables -t nat -L -n -v
+
+# ACL exemplo (Linux)
+iptables -A INPUT -s 192.168.1.10 -j DROP
+
+# QoS básico
+tc qdisc show
+</div>
+
+<div class="button-group">
+<button onclick="copiarComandos()">Copiar Bloco</button>
+<button onclick="voltar()">Voltar</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- FAB -->
+<div class="fab" onclick="toggleMenu()">☰</div>
+
+<div class="floating-menu" id="floatingMenu">
+<button onclick="abrirPagina('index.html')">🏠 Início</button>
+<button onclick="abrirPagina('windows-server.html')">Windows Server</button>
+<button onclick="abrirPagina('roteadores-switches.html')">Roteadores</button>
+<button onclick="abrirPagina('gerenciamento-redes.html')">Gerenciamento</button>
+</div>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("floatingMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function abrirPagina(pagina) {
+    window.location.href = pagina;
+}
+
+function voltar() {
+    window.location.href = "index.html";
+}
+
+function copiarComandos() {
+    const texto = document.querySelectorAll(".code-box");
+    let conteudo = "";
+    texto.forEach(c => conteudo += c.innerText + "\n\n");
+    navigator.clipboard.writeText(conteudo);
+    alert("Comandos copiados!");
+}
+</script>
+
+</body>
+</html>
