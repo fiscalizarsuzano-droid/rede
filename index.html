@@ -221,6 +221,27 @@
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    li {
+        margin-bottom: 10px; /* espaço entre itens */
+    }
+
+    .comando {
+        color: #d4af37; /* dourado */
+        font-weight: bold;
+    }
+
+    .secao {
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 18px;
+    }
     
 </style>
 </head>
@@ -244,29 +265,95 @@
     <b>Ramal:</b> 2028 | 2175 | 2158</p>
 
     <ul>
+    
         <li>Roteadores decidem caminhos.</li>
-        <li>Switches organizam conversas</li>
-
-        <b>1. Estrutura de Diretórios (Hierarquia)</b>
-        <li>/ → Raiz do sistema (tudo começa aqui)</li>
-        <li>/home → Pasta dos usuários</li>
-        <li>/bin → Comandos essenciais</li>
-        <li>/etc → Arquivos de configuração</li>
-        <li>/usr → Programas instalados</li>
-        <li>/var → Logs e arquivos variáveis</li>
-        <li>/tmp → Arquivos temporários</li>
-
-        <b>2. Navegação na Árvore</b>
-        <li>pwd → Mostra onde você está</li>
-        <li>ls → Lista arquivos</li>
-        <li>ls -l → Lista detalhada</li>
-        <li>ls -a → Mostra arquivos ocultos</li>
-        <li>cd pasta → Entra na pasta</li>
-        <li>cd .. → Volta um nível</li>
-        <li>cd / → Vai para a raiz</li>
-        <li>cd ~ → Vai para sua home</li>
-
+        <li>Switches organizam conversas.</li>
+    
+        <div class="secao">1. Estrutura de Diretórios (Hierarquia)</div>
+    
+        <li><span class="comando">/</span> → Raiz do sistema (tudo começa aqui)</li>
+        <li><span class="comando">/home</span> → Pasta dos usuários</li>
+        <li><span class="comando">/bin</span> → Comandos essenciais</li>
+        <li><span class="comando">/etc</span> → Arquivos de configuração</li>
+        <li><span class="comando">/usr</span> → Programas instalados</li>
+        <li><span class="comando">/var</span> → Logs e arquivos variáveis</li>
+        <li><span class="comando">/tmp</span> → Arquivos temporários</li>
+    
+        <div class="secao">2. Navegação na Árvore</div>
+    
+        <li><span class="comando">pwd</span> → Mostra onde você está</li>
+        <li><span class="comando">ls</span> → Lista arquivos</li>
+        <li><span class="comando">ls -l</span> → Lista detalhada</li>
+        <li><span class="comando">ls -a</span> → Mostra arquivos ocultos</li>
+        <li><span class="comando">cd pasta</span> → Entra na pasta</li>
+        <li><span class="comando">cd ..</span> → Volta um nível</li>
+        <li><span class="comando">cd /</span> → Vai para a raiz</li>
+        <li><span class="comando">cd ~</span> → Vai para sua home</li>
+    
+        <div class="secao">3. Manipulação de Arquivos</div>
+    
+        <li><span class="comando">touch arquivo.txt</span> → Cria arquivo vazio</li>
+        <li><span class="comando">mkdir pasta</span> → Cria diretório</li>
+        <li><span class="comando">rm arquivo.txt</span> → Remove arquivo</li>
+        <li><span class="comando">rm -r pasta</span> → Remove pasta</li>
+        <li><span class="comando">cp origem destino</span> → Copia arquivo</li>
+        <li><span class="comando">mv origem destino</span> → Move ou renomeia</li>
+        <li><span class="comando">cat arquivo.txt</span> → Mostra conteúdo</li>
+        <li><span class="comando">less arquivo.txt</span> → Visualiza paginado</li>
+        <li><span class="comando">head arquivo.txt</span> → Primeiras linhas</li>
+        <li><span class="comando">tail arquivo.txt</span> → Últimas linhas</li>
+    
+        <div class="secao">4. Permissões</div>
+    
+        <li><span class="comando">chmod 755 arquivo</span> → Muda permissões</li>
+        <li><span class="comando">chown usuario arquivo</span> → Muda dono</li>
+        <li><span class="comando">ls -l</span> → Mostra permissões</li>
+    
+        <div class="secao">5. Processos</div>
+    
+        <li><span class="comando">ps</span> → Lista processos</li>
+        <li><span class="comando">top</span> → Monitor em tempo real</li>
+        <li><span class="comando">htop</span> → Monitor avançado</li>
+        <li><span class="comando">kill PID</span> → Encerra processo</li>
+    
+        <div class="secao">6. Rede</div>
+    
+        <li><span class="comando">ping site.com</span> → Testa conexão</li>
+        <li><span class="comando">ip a</span> → Mostra IP</li>
+        <li><span class="comando">curl url</span> → Faz requisição web</li>
+        <li><span class="comando">wget url</span> → Baixa arquivo</li>
+    
+        <div class="secao">7. Pacotes (Debian/Ubuntu)</div>
+    
+        <li><span class="comando">sudo apt update</span> → Atualiza lista</li>
+        <li><span class="comando">sudo apt upgrade</span> → Atualiza sistema</li>
+        <li><span class="comando">sudo apt install pacote</span> → Instala</li>
+        <li><span class="comando">sudo apt remove pacote</span> → Remove</li>
+    
+        <div class="secao">8. Variáveis e Sistema</div>
+    
+        <li><span class="comando">echo $PATH</span> → Mostra caminhos de comandos</li>
+        <li><span class="comando">which comando</span> → Mostra localização</li>
+        <li><span class="comando">history</span> → Histórico de comandos</li>
+        <li><span class="comando">clear</span> → Limpa terminal</li>
+        <li><span class="comando">man comando</span> → Manual</li>
+    
+        <div class="secao">9. Compactação</div>
+    
+        <li><span class="comando">tar -cvf arquivo.tar pasta</span> → Compacta</li>
+        <li><span class="comando">tar -xvf arquivo.tar</span> → Extrai</li>
+        <li><span class="comando">zip arquivo.zip pasta</span> → Compacta</li>
+        <li><span class="comando">unzip arquivo.zip</span> → Extrai</li>
+    
+        <div class="secao">Regra Mental Final</div>
+    
+        <li>✔ Tudo começa em <span class="comando">/</span></li>
+        <li>✔ Pense sempre: "Onde estou?" → <span class="comando">pwd</span></li>
+        <li>✔ Liste antes de agir → <span class="comando">ls</span></li>
+        <li>✔ Teste na sua <span class="comando">/home</span></li>
+    
     </ul>
+    
 </div>
     
 <div class="container">
