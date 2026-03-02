@@ -39,10 +39,34 @@ pre {
 ul {
     line-height: 1.6;
 }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+}
+
+pre {
+    background-color: #1e293b;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    text-align: left;
+}
+
 </style>
 </head>
 <body>
-
+<div class="container">
 <h1>Guia Didático - Hierarquia de Arquivos e Comandos Linux</h1>
 
 <div class="section">
@@ -200,5 +224,84 @@ ul {
 </div>
 </div>
 
+<div class="section">
+<h2>10. Operadores e Concatenação no Bash</h2>
+
+<div class="card">
+<h3>Execução Sequencial</h3>
+
+<p><code>;</code> → Executa todos os comandos, independente de erro</p>
+
+<pre>
+mkdir teste; cd teste; touch arquivo.txt
+</pre>
+
+<p><code>&&</code> → Executa apenas se o anterior der certo</p>
+
+<pre>
+mkdir teste && cd teste && touch arquivo.txt
+</pre>
+
+<p><code>||</code> → Executa apenas se o anterior falhar</p>
+
+<pre>
+cd pasta_inexistente || echo "Erro ao acessar pasta"
+</pre>
+</div>
+
+<div class="card">
+<h3>Encadeamento de Dados (Pipe)</h3>
+
+<p><code>|</code> → Envia a saída de um comando para outro</p>
+
+<pre>
+ls -l | grep ".txt"
+ps aux | grep firefox
+</pre>
+</div>
+
+<div class="card">
+<h3>Redirecionamento</h3>
+
+<p><code>></code> → Sobrescreve arquivo</p>
+<pre>
+ls > lista.txt
+</pre>
+
+<p><code>>></code> → Adiciona ao final</p>
+<pre>
+echo "novo texto" >> lista.txt
+</pre>
+
+<p><code><</code> → Usa arquivo como entrada</p>
+<pre>
+wc -l < lista.txt
+</pre>
+</div>
+
+<div class="card">
+<h3>Execução em Segundo Plano</h3>
+
+<p><code>&</code> → Executa comando em paralelo</p>
+
+<pre>
+comando1 & comando2 &
+</pre>
+</div>
+
+<div class="card">
+<h3>Exemplo Completo</h3>
+
+<pre>
+mkdir projeto && cd projeto && touch main.txt && ls -l
+</pre>
+
+<p><strong>Leitura lógica:</strong></p>
+<p>✔ Cria pasta → ✔ Entra nela → ✔ Cria arquivo → ✔ Lista conteúdo</p>
+</div>
+
+</div>
+    
+</div>
 </body>
 </html>
